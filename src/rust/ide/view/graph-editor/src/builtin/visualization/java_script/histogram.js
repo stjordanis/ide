@@ -26,6 +26,7 @@ loadScript('https://d3js.org/d3.v4.min.js');
  */
 class Histogram extends Visualization {
     static inputType = "Any"
+    static label     = "Histogram (JS)"
 
     onDataReceived(data) {
         while (this.dom.firstChild) {
@@ -105,7 +106,7 @@ class Histogram extends Visualization {
         let x = d3.scaleLinear()
             .domain([xMin - dx, xMax + dx])
             .range([0, width]);
-        svg.append("g")
+        let xAxis = svg.append("g")
             .attr("transform", "translate(0," + height + ")")
             .call(d3.axisBottom(x));
 
@@ -134,9 +135,47 @@ class Histogram extends Visualization {
             .append("rect")
             .attr("x", 1)
             .attr("transform", d => "translate(" + x(d.x0) + "," + y(d.length) + ")" )
-            .attr("width", d => x(d.x1) - x(d.x0) -1 )
+            .attr("width", d => x(d.x1) - x(d.x0) - 1)
             .attr("height", d => height - y(d.length) )
             .style("fill", "#00E890")
+
+        ////////////////
+        /// Brushing ///
+        ////////////////
+
+        let brush = d3.brushX()
+            .extent([[0, 0], [width, height]])
+            .on("end", updateChart)
+
+
+        svg
+            .append("g")
+            .attr("class", "brush")
+            .call(brush);
+
+        let idleTimeout
+
+        function idled() {
+            idleTimeout = null;
+        }
+
+        function updateChart() {
+            let extent = d3.event.selection;
+
+            if (!extent) {
+                if (!idleTimeout) return idleTimeout = setTimeout(idled, 350);
+                x.domain([xMin - dx, xMax + dx]);
+            } else {
+                x.domain([x.invert(extent[0]), x.invert(extent[1])]);
+                svg.select(".brush").call(brush.move, null);
+            }
+
+            xAxis.transition().duration(1000).call(d3.axisBottom(x));
+            svg
+                .selectAll("rect")
+                .transition().duration(1000)
+                .attr("transform", d => "translate(" + x(d.x0) + "," + y(d.length) + ")" )
+        }
     }
 
     createDivElem(width, height) {
