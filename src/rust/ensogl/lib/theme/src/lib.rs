@@ -126,6 +126,11 @@ define_theme! { dark
                     color = color::Lcha::new(0.7,0.0,0.125,0.7)
                 }
             }
+            actions {
+                icon {
+                    color = color::Lcha::new(1.0,0.0,0.0,0.7)
+                }
+            }
         }
         visualization {
             background {
@@ -256,6 +261,15 @@ define_default_theme! { light
                 color = color::Lcha::new(0.0,0.0,0.0,0.7);
                 selection {
                     color = color::Lcha::new(0.7,0.0,0.125,0.7)
+                }
+            }
+            actions {
+                icon {
+                    color = color::Lcha::new(0.0,0.0,0.0,0.7);
+                    variant {
+                        dimmed = color::Lcha::new(0.5,0.0,0.0,0.7)
+                    }
+
                 }
             }
         }
