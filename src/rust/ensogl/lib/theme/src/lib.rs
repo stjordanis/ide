@@ -116,12 +116,20 @@ define_theme! { dark
                     dimmed = color::Lcha::new(0.15,0.013,0.18,1.0)
                 }
             }
+            shadow {
+                color        = color::Lcha::new(0.2,0.013,0.18,0.20);
+                fading_color = color::Lcha::new(00.2,0.013,0.18,0.0);
+                exponent     = 2.0
+            }
             selection {
                 color = color::Lcha::new(0.72,0.5,0.22,1.0);
                 size = 7.0
             }
             text {
                 color = color::Lcha::new(1.0,0.0,0.0,0.7);
+                variant {
+                    dimmed = color::Lcha::new(0.25,0.013,0.18,1.0)
+                }
                 selection {
                     color = color::Lcha::new(0.7,0.0,0.125,0.7)
                 }
@@ -260,7 +268,7 @@ define_default_theme! { light
             text {
                 color = color::Lcha::new(0.0,0.0,0.0,0.7);
                 variant {
-                    dimmed = color::Lcha::new(0.8,0.0,0.0,0.7)
+                    dimmed = color::Lcha::new(0.4,0.0,0.0,0.7)
                 }
                 selection {
                     color = color::Lcha::new(0.7,0.0,0.125,0.7)
